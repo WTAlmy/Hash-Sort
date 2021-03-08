@@ -1,14 +1,30 @@
 #!/usr/bin/python3
 import time
 import random
+import numpy as np
 
-NUM_INTS = 10000000 # 10 mil
-MAX_NUMBER = 100000 # 100k
+NUM_INTS =   16777216 # 2^24
+MAX_NUMBER =    65536 # 2^16
 
 # Generate NUM_INTS random integers between 0 and MAX_NUMBER
 nums = list()
 for i in range(NUM_INTS):
   nums.append(random.randint(0, MAX_NUMBER))
+
+
+# Numpy Array Sort
+TIC = time.perf_counter()
+hist = np.bincount(nums)
+
+result = list()
+for i in range(MAX_NUMBER):
+  for n in range(hist[i]):
+    result.append(i)
+TOC = time.perf_counter()
+
+# Numpy Array Sort Results
+print(TOC-TIC, "seconds")
+print(result[0:100])
 
 
 # Hash Sort (n)
@@ -23,7 +39,7 @@ for num in nums:
 
 result = list()
 for i in range(MAX_NUMBER):
-  for n in range(hist.get(i,0)):
+  for n in range(hist[i]):
     result.append(i)
 TOC = time.perf_counter()
 
